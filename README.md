@@ -129,6 +129,8 @@ ai-money-mentor/
 │   ├── index.html          # Landing page
 │   ├── onboarding.html     # Input form
 │   ├── result.html         # Output dashboard
+│   ├── mf_xray.html          # MF X-ray dashborad
+│   └── couples.html          # Couples planner dashboard
 │   ├── css/
 │   │   ├── style.css       # Design tokens
 │   │   └── components.css  # UI components
