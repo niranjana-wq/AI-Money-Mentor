@@ -1,4 +1,4 @@
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = 'https://ai-money-mentor-backend.onrender.com"';
 
 const LOADING_MESSAGES = [
   'Crunching your FIRE numbers...',
