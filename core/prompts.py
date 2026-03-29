@@ -16,7 +16,9 @@ STRICT RULES — violation of any rule makes the response invalid:
 5. All percentages as decimals (0.11 means 11%)
 6. Be conservative — underestimate returns, overestimate expenses
 7. If a value cannot be computed from inputs, use null — never guess
-8. mentor_insight must be warm, direct, specific to this user — not generic advice
+8. CRITICAL: Never write math expressions in JSON values. Always pre-compute the final number yourself before writing it. Write 720000 not 6*120000. Write 360000 not 1200000*0.3. Every numeric value must be a final integer or float, never a formula or expression.
+9. CRITICAL: Never use arithmetic operators (+, -, *, /) anywhere inside JSON values. JSON only accepts numbers, strings, booleans, null, arrays and objects — never expressions.
+10. CRITICAL: The "current", "target", and "fix" fields in dimension objects must always be plain strings describing the situation in words — never raw numbers or math expressions. Example: "current": "Emergency fund of Rs 50000 covering 0.5 months" not "current": 50000.
 """
 
 
@@ -60,7 +62,7 @@ Respond ONLY with this exact JSON structure:
     {{
       "month": <integer 1-6>,
       "focus": "<one sentence focus>",
-      "target": "<measurable target with rupee amount>"
+      "target": "<measurable target with rupee amount written as words e.g. Rs 8000 SIP>"
     }}
   ],
   "mentor_insight": "<2-3 sentences warm, direct, specific to this user>"
@@ -77,6 +79,14 @@ USER PROFILE:
 PRE-CALCULATED SCORES (use these directly):
 {calculated}
 
+IMPORTANT FOR THIS TASK:
+- The "current", "target", and "fix" fields must be plain English strings, never numbers or math.
+- Good example: "current": "Emergency fund of Rs 100000 covering 1 month of expenses"
+- Good example: "target": "Emergency fund of Rs 600000 covering 6 months of expenses"
+- Good example: "fix": "Save Rs 15000 per month into a liquid fund for 4 months"
+- Bad example: "current": 100000  <-- this is wrong, must be a string
+- Bad example: "target": 6 * 100000  <-- this is wrong, never write math
+
 Respond ONLY with this exact JSON structure:
 {{
   "overall_score": <integer 0-100>,
@@ -86,47 +96,47 @@ Respond ONLY with this exact JSON structure:
     "emergency_fund": {{
       "score": <integer 0-100>,
       "status": "<on_track/needs_attention/critical>",
-      "current": "<what they currently have>",
-      "target": "<what they need>",
-      "fix": "<one specific action with amount>"
+      "current": "<string: describe what they currently have e.g. Rs 100000 covering 1 month>",
+      "target": "<string: describe what they need e.g. Rs 600000 covering 6 months>",
+      "fix": "<string: one specific action with rupee amount e.g. Save Rs 15000/month in liquid fund>"
     }},
     "insurance": {{
       "score": <integer 0-100>,
       "status": "<on_track/needs_attention/critical>",
-      "current": "<what they currently have>",
-      "target": "<what they need>",
-      "fix": "<one specific action with amount>"
+      "current": "<string: describe current cover e.g. Life Rs 1000000 Health Rs 500000>",
+      "target": "<string: describe target cover e.g. Life Rs 10000000 Health Rs 1000000>",
+      "fix": "<string: one specific action e.g. Buy term plan of Rs 10000000 at Rs 700/month>"
     }},
     "investments": {{
       "score": <integer 0-100>,
       "status": "<on_track/needs_attention/critical>",
-      "current": "<what they currently have>",
-      "target": "<what they need>",
-      "fix": "<one specific action with amount>"
+      "current": "<string: describe current investments e.g. Rs 500000 in mutual funds SIP Rs 8000/month>",
+      "target": "<string: describe investment target e.g. SIP of Rs 22000/month in index funds>",
+      "fix": "<string: one specific action e.g. Increase SIP by Rs 5000 in Nifty 50 index fund>"
     }},
     "debt_health": {{
       "score": <integer 0-100>,
       "status": "<on_track/needs_attention/critical>",
-      "current": "<what they currently have>",
-      "target": "<what they need>",
-      "fix": "<one specific action with amount>"
+      "current": "<string: describe current debt e.g. No debt EMIs FOIR 0 percent>",
+      "target": "<string: describe target e.g. Keep EMIs below 30 percent of income>",
+      "fix": "<string: one specific action or null if no action needed>"
     }},
     "tax_efficiency": {{
       "score": <integer 0-100>,
       "status": "<on_track/needs_attention/critical>",
-      "current": "<what they currently have>",
-      "target": "<what they need>",
-      "fix": "<one specific action with amount>"
+      "current": "<string: describe current tax saving e.g. Rs 50000 in 80C out of Rs 150000 limit>",
+      "target": "<string: describe target e.g. Fully utilise Rs 150000 under 80C plus Rs 50000 NPS>",
+      "fix": "<string: one specific action e.g. Invest Rs 100000 more in ELSS to exhaust 80C limit>"
     }},
     "retirement_readiness": {{
       "score": <integer 0-100>,
       "status": "<on_track/needs_attention/critical>",
-      "current": "<what they currently have>",
-      "target": "<what they need>",
-      "fix": "<one specific action with amount>"
+      "current": "<string: describe current retirement corpus e.g. Rs 500000 invested projected to Rs 2Cr by 60>",
+      "target": "<string: describe target corpus e.g. Rs 4.2Cr needed at 60 based on current expenses>",
+      "fix": "<string: one specific action e.g. Increase equity SIP by Rs 8000/month to close the gap>"
     }}
   }},
-  "top_priority": "<single most important thing to fix right now with specific amount>",
+  "top_priority": "<single most important thing to fix right now with specific rupee amount as text>",
   "mentor_insight": "<2-3 sentences warm, direct, specific to this user>"
 }}"""
 
