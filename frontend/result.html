@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Money Mentor — Your Financial Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="navbar__logo" href="index.html">
+    <div class="navbar__logo-mark">M</div>
+    <div>
+      <div class="navbar__logo-text">AI Money Mentor</div>
+      <div class="navbar__logo-sub">Powered by ET</div>
+    </div>
+  </a>
+  <a href="index.html" class="btn btn--secondary" style="font-size:13px;padding:8px 16px">← New analysis</a>
+</nav>
+
+<div class="container" style="padding-top:32px;padding-bottom:80px" id="resultContainer">
+  <div class="state-empty">
+    <div class="state-empty__icon">⏳</div>
+    <div class="state-empty__title">Loading your financial report...</div>
+    <div class="state-empty__sub">This takes about 10 seconds</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/render.js"></script>
+<script src="js/engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Money Mentor — Your Financial Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="navbar__logo" href="index.html">
+    <div class="navbar__logo-mark">M</div>
+    <div>
+      <div class="navbar__logo-text">AI Money Mentor</div>
+      <div class="navbar__logo-sub">Powered by ET</div>
+    </div>
+  </a>
+  <span class="navbar__badge">Free · No signup needed</span>
+</nav>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loadingText">Analysing your finances...</div>
+</div>
+
+<section class="onboarding">
+  <div class="container--narrow">
+    <div class="onboarding__header">
+      <h1 id="formTitle">Your Financial Profile</h1>
+      <p id="formSubtitle">Tell us about yourself — takes under 5 minutes</p>
+    </div>
+
+    <form id="mainForm" novalidate>
+
+      <!-- Section 1: Basic Profile -->
+      <div class="form-section">
+        <div class="form-section__title">Basic profile</div>
+        <div class="form-section__subtitle">Your age and income determine your FIRE timeline</div>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label">Age</label>
+            <input class="form-input" type="number" id="age" name="age" placeholder="28" min="18" max="70" required/>
+            <span class="form-error">Please enter a valid age (18–70)</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">City type</label>
+            <select class="form-select" id="city_type" name="city_type">
+              <option value="metro">Metro city</option>
+              <option value="non-metro">Non-metro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Risk profile</label>
+            <select class="form-select" id="risk_profile" name="risk_profile">
+              <option value="conservative">Conservative</option>
+              <option value="moderate" selected>Moderate</option>
+              <option value="aggressive">Aggressive</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Gross annual CTC (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="gross_annual_salary" name="gross_annual_salary" placeholder="12,00,000"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Income & Expenses -->
+      <div class="form-section">
+        <div class="form-section__title">Monthly cash flow</div>
+        <div class="form-section__subtitle">Take-home income after tax and PF deductions</div>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label">Monthly take-home income (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="monthly_income" name="monthly_income" placeholder="80,000" required/>
+              <span class="form-error">Required</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly expenses (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="monthly_expenses" name="monthly_expenses" placeholder="50,000" required/>
+              <span class="form-error">Required</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly savings (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="monthly_savings" name="monthly_savings" placeholder="30,000"/>
+            </div>
+            <span class="form-hint">Auto-filled as income minus expenses</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Total monthly EMIs (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="total_debt_emi" name="total_debt_emi" placeholder="0"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Investments -->
+      <div class="form-section">
+        <div class="form-section__title">Investments & savings</div>
+        <div class="form-section__subtitle">Existing corpus and monthly contributions</div>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label">Total existing investments (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="existing_investments" name="existing_investments" placeholder="5,00,000"/>
+            </div>
+            <span class="form-hint">MF + stocks + FD + PF + PPF combined</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Current monthly SIP (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="existing_sip" name="existing_sip" placeholder="8,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Emergency fund (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="emergency_fund" name="emergency_fund" placeholder="1,00,000"/>
+            </div>
+            <span class="form-hint">Liquid savings for emergencies</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Annual 80C investments (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="tax_saving_investments" name="tax_saving_investments" placeholder="50,000"/>
+            </div>
+            <span class="form-hint">ELSS, PPF, LIC etc.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Insurance -->
+      <div class="form-section">
+        <div class="form-section__title">Insurance coverage</div>
+        <div class="form-section__subtitle">Helps us score your insurance dimension accurately</div>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label">Life insurance cover (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="life_insurance_cover" name="life_insurance_cover" placeholder="1,00,00,000"/>
+            </div>
+            <span class="form-hint">Term plan cover amount</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Health insurance cover (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="health_insurance_cover" name="health_insurance_cover" placeholder="5,00,000"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Goals (conditional) -->
+      <div class="form-section" id="goalsSection">
+        <div class="form-section__title">Your financial goals</div>
+        <div class="form-section__subtitle">Select all that apply</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px" id="goalsGrid">
+          <label class="goal-chip"><input type="checkbox" value="retirement" name="goals"/> Retirement</label>
+          <label class="goal-chip"><input type="checkbox" value="house" name="goals"/> Buy a house</label>
+          <label class="goal-chip"><input type="checkbox" value="child_education" name="goals"/> Child's education</label>
+          <label class="goal-chip"><input type="checkbox" value="travel" name="goals"/> Travel</label>
+          <label class="goal-chip"><input type="checkbox" value="emergency_fund" name="goals"/> Emergency fund</label>
+          <label class="goal-chip"><input type="checkbox" value="car" name="goals"/> Buy a car</label>
+        </div>
+      </div>
+
+      <!-- Life Event Section (conditional) -->
+      <div class="form-section" id="lifeEventSection" style="display:none">
+        <div class="form-section__title">Life event details</div>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label">Event type</label>
+            <select class="form-select" id="event_type" name="event_type">
+              <option value="bonus">Bonus received</option>
+              <option value="marriage">Getting married</option>
+              <option value="baby">New baby</option>
+              <option value="inheritance">Inheritance</option>
+              <option value="job_change">Job change</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Amount involved (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="event_amount" name="event_amount" placeholder="5,00,000"/>
+            </div>
+          </div>
+          <div class="form-group" style="grid-column:1/-1">
+            <label class="form-label">Additional context (optional)</label>
+            <textarea class="form-input" id="event_details" name="event_details" rows="2" style="height:auto;padding:12px 16px" placeholder="e.g. Annual performance bonus, planning to invest most of it"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--large btn--full mt-24" id="submitBtn">
+        Analyse my finances →
+      </button>
+
+    </form>
+  </div>
+</section>
+
+<style>
+.goal-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-secondary);
+}
+.goal-chip:hover { border-color: var(--brand-green); color: var(--brand-green-dark); }
+.goal-chip input[type="checkbox"] { accent-color: var(--brand-green); }
+.goal-chip:has(input:checked) {
+  border-color: var(--brand-green);
+  background: var(--brand-green-light);
+  color: var(--brand-green-dark);
+}
+</style>
+
+<div class="toast" id="toast"></div>
+<script src="js/engine.js"></script>
+</body>
+</html>

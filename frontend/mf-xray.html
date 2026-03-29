@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Money Mentor — MF Portfolio X-Ray</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="navbar__logo" href="index.html">
+    <div class="navbar__logo-mark">M</div>
+    <div>
+      <div class="navbar__logo-text">AI Money Mentor</div>
+      <div class="navbar__logo-sub">Powered by ET</div>
+    </div>
+  </a>
+  <span class="navbar__badge">Free · No signup needed</span>
+</nav>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loadingText">Analysing your portfolio...</div>
+</div>
+
+<section class="onboarding">
+  <div class="container--narrow">
+    <div class="onboarding__header">
+      <h1>MF Portfolio X-Ray</h1>
+      <p>Upload your CAMS or KFin statement — get XIRR, overlap analysis and AI rebalancing plan in seconds</p>
+    </div>
+
+    <form id="mfForm" novalidate>
+
+      <div class="form-section">
+        <div class="form-section__title">Basic details</div>
+        <div class="form-section__subtitle">Needed to personalise the rebalancing plan</div>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label">Age</label>
+            <input class="form-input" type="number" id="age" placeholder="28" min="18" max="70" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Risk profile</label>
+            <select class="form-select" id="risk_profile">
+              <option value="conservative">Conservative</option>
+              <option value="moderate" selected>Moderate</option>
+              <option value="aggressive">Aggressive</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Upload CAMS / KFin statement</div>
+        <div class="form-section__subtitle">Download from camsonline.com or kfintech.com — text format preferred</div>
+        <div class="form-group">
+          <label class="form-label">Statement file</label>
+          <input class="form-input" type="file" id="statement" accept=".txt,.pdf,.csv" required
+            style="padding:12px 16px;height:auto;cursor:pointer"/>
+          <span class="form-hint">Supported: .txt, .pdf, .csv · Max 10MB</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--large btn--full mt-24" id="submitBtn">
+        X-Ray my portfolio →
+      </button>
+
+    </form>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
+  ? 'http://127.0.0.1:8000'
+  : '';
+
+function showLoading() {
+  document.getElementById('loadingOverlay').classList.add('active');
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').classList.remove('active');
+}
+
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast show ${type}`;
+  setTimeout(() => { t.className = 'toast'; }, 3500);
+}
+
+document.getElementById('mfForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const age = document.getElementById('age').value;
+  const risk = document.getElementById('risk_profile').value;
+  const file = document.getElementById('statement').files[0];
+
+  if (!age || !file) {
+    showToast('Please fill all fields and upload a statement', 'error');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('age', age);
+  formData.append('risk_profile', risk);
+
+  showLoading();
+  document.getElementById('submitBtn').classList.add('btn--loading');
+
+  try {
+    const res = await fetch(`${API_BASE}/api/mf-xray`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `Error ${res.status}`);
+    }
+
+    const result = await res.json();
+    sessionStorage.setItem('mentorResult', JSON.stringify({
+      feature: 'mf_xray',
+      result,
+    }));
+    window.location.href = 'result.html';
+  } catch (err) {
+    hideLoading();
+    document.getElementById('submitBtn').classList.remove('btn--loading');
+    showToast(err.message || 'Something went wrong', 'error');
+    console.error(err);
+  }
+});
+</script>
+</body>
+</html>
