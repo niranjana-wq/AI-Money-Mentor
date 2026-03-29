@@ -1,4 +1,6 @@
-const API_BASE = 'https://ai-money-mentor-backend.onrender.com';
+const API_BASE = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')
+  ? 'http://127.0.0.1:8000'
+  : 'https://ai-money-mentor-backend.onrender.com';
 
 const LOADING_MESSAGES = [
   'Crunching your FIRE numbers...',
@@ -76,11 +78,11 @@ function autofillSavings() {
 
 function configureFormForFeature(feature) {
   const titles = {
-    fire:        ['FIRE Path Planner', 'Build your complete roadmap to financial independence'],
-    score:       ['Money Health Score', 'Get your financial wellness score across 6 dimensions'],
-    tax:         ['Tax Wizard', 'Find every deduction you are missing this year'],
-    life_event:  ['Life Event Advisor', 'Get advice tailored to your specific financial event'],
-    couples:     ['Couple\'s Money Planner', 'Optimise finances across both incomes'],
+    fire:       ['FIRE Path Planner', 'Build your complete roadmap to financial independence'],
+    score:      ['Money Health Score', 'Get your financial wellness score across 6 dimensions'],
+    tax:        ['Tax Wizard', 'Find every deduction you are missing this year'],
+    life_event: ['Life Event Advisor', 'Get advice tailored to your specific financial event'],
+    couples:    ["Couple's Money Planner", 'Optimise finances across both incomes'],
   };
   const [title, subtitle] = titles[feature] || titles.fire;
   const t = document.getElementById('formTitle');
@@ -168,7 +170,7 @@ if (form) {
       return;
     }
 
-    const data    = collectFormData();
+    const data     = collectFormData();
     const endpoint = getEndpointForFeature(feature);
 
     showLoading();
@@ -189,3 +191,8 @@ if (form) {
 
 // Export helpers for render.js
 window.MentorUtils = { formatINR, formatPct, showToast };
+
+// Wake up Render backend on page load
+(async () => {
+  try { await fetch(`${API_BASE}/api/health`); } catch (_) {}
+})();

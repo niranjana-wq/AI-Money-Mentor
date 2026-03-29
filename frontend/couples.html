@@ -24,7 +24,7 @@
 
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-spinner"></div>
-  <div class="loading-text">Optimising your combined finances...</div>
+  <div class="loading-text" id="loadingText">Optimising your combined finances...</div>
 </div>
 
 <section class="onboarding">
@@ -78,7 +78,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Current SIP (₹)</label>
+            <label class="form-label">Current monthly SIP (₹)</label>
             <div class="form-row">
               <span class="form-prefix">₹</span>
               <input class="form-input form-input--prefix" type="number" id="p1_existing_sip" placeholder="8,000"/>
@@ -164,7 +164,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Current SIP (₹)</label>
+            <label class="form-label">Current monthly SIP (₹)</label>
             <div class="form-row">
               <span class="form-prefix">₹</span>
               <input class="form-input form-input--prefix" type="number" id="p2_existing_sip" placeholder="5,000"/>
@@ -208,7 +208,7 @@
         </div>
       </div>
 
-      <!-- Combined -->
+      <!-- Combined goals -->
       <div class="form-section">
         <div class="form-section__title">Combined goals</div>
         <div class="grid-2" style="gap:16px">
@@ -249,25 +249,58 @@
   border-radius:var(--radius-md);font-size:14px;font-weight:500;
   cursor:pointer;transition:var(--transition);color:var(--text-secondary);
 }
-.goal-chip:hover{border-color:var(--brand-green);color:var(--brand-green-dark);}
-.goal-chip input{accent-color:var(--brand-green);}
-.goal-chip:has(input:checked){border-color:var(--brand-green);background:var(--brand-green-light);color:var(--brand-green-dark);}
+.goal-chip:hover { border-color:var(--brand-green);color:var(--brand-green-dark); }
+.goal-chip input { accent-color:var(--brand-green); }
+.goal-chip:has(input:checked) {
+  border-color:var(--brand-green);
+  background:var(--brand-green-light);
+  color:var(--brand-green-dark);
+}
 </style>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const API_BASE = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
-  ? 'http://127.0.0.1:8000' : '';
+const API_BASE = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')
+  ? 'http://127.0.0.1:8000'
+  : 'https://ai-money-mentor-backend.onrender.com';
+
+const LOADING_MESSAGES = [
+  'Analysing combined income...',
+  'Optimising HRA claims...',
+  'Computing NPS strategy...',
+  'Splitting SIPs by goal...',
+  'Almost there...',
+];
 
 function g(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
 function s(id) { return document.getElementById(id)?.value || ''; }
 
-function showLoading() { document.getElementById('loadingOverlay').classList.add('active'); }
-function hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); }
-function showToast(msg, type='') {
+function showLoading() {
+  const overlay = document.getElementById('loadingOverlay');
+  const text = document.getElementById('loadingText');
+  if (!overlay) return;
+  overlay.classList.add('active');
+  let i = 0;
+  const interval = setInterval(() => {
+    if (text) text.textContent = LOADING_MESSAGES[i % LOADING_MESSAGES.length];
+    i++;
+  }, 2200);
+  overlay._interval = interval;
+}
+
+function hideLoading() {
+  const overlay = document.getElementById('loadingOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('active');
+  clearInterval(overlay._interval);
+}
+
+function showToast(msg, type = '') {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `toast show ${type}`;
+  if (!t) return;
+  t.textContent = msg;
+  t.className = `toast show ${type}`;
   setTimeout(() => { t.className = 'toast'; }, 3500);
 }
 
@@ -314,7 +347,7 @@ document.getElementById('couplesForm').addEventListener('submit', async (e) => {
 
   if (!payload.partner1.age || !payload.partner1.monthly_income ||
       !payload.partner2.age || !payload.partner2.monthly_income) {
-    showToast('Please fill both partners\' age and income', 'error');
+    showToast('Please fill both partners age and income', 'error');
     return;
   }
 
@@ -343,6 +376,11 @@ document.getElementById('couplesForm').addEventListener('submit', async (e) => {
     console.error(err);
   }
 });
+
+// Wake up Render backend on page load
+(async () => {
+  try { await fetch(`${API_BASE}/api/health`); } catch (_) {}
+})();
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Money Mentor — MF Portfolio X-Ray</title>
+  <title>AI Money Mentor — Couple's Money Planner</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css"/>
@@ -24,26 +24,194 @@
 
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-spinner"></div>
-  <div class="loading-text" id="loadingText">Analysing your portfolio...</div>
+  <div class="loading-text" id="loadingText">Optimising your combined finances...</div>
 </div>
 
 <section class="onboarding">
   <div class="container--narrow">
     <div class="onboarding__header">
-      <h1>MF Portfolio X-Ray</h1>
-      <p>Upload your CAMS or KFin statement — get XIRR, overlap analysis and AI rebalancing plan in seconds</p>
+      <h1>Couple's Money Planner</h1>
+      <p>India's first AI joint financial planner — optimise HRA, NPS, SIP splits across both incomes</p>
     </div>
 
-    <form id="mfForm" novalidate>
+    <form id="couplesForm" novalidate>
 
-      <div class="form-section">
-        <div class="form-section__title">Basic details</div>
-        <div class="form-section__subtitle">Needed to personalise the rebalancing plan</div>
+      <!-- Partner 1 -->
+      <div class="form-section" style="border-left:4px solid var(--brand-green);border-radius:0 var(--radius-lg) var(--radius-lg) 0">
+        <div class="form-section__title">Partner 1</div>
+        <div class="form-section__subtitle">Primary earner details</div>
         <div class="grid-2" style="gap:16px">
           <div class="form-group">
-            <label class="form-label">Age</label>
-            <input class="form-input" type="number" id="age" placeholder="28" min="18" max="70" required/>
+            <label class="form-label">Name</label>
+            <input class="form-input" type="text" id="p1_name" placeholder="Rahul"/>
           </div>
+          <div class="form-group">
+            <label class="form-label">Age</label>
+            <input class="form-input" type="number" id="p1_age" placeholder="28" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly income (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p1_monthly_income" placeholder="80,000" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly expenses (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p1_monthly_expenses" placeholder="40,000" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Gross annual CTC (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p1_gross_annual_salary" placeholder="12,00,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Existing investments (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p1_existing_investments" placeholder="5,00,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Current monthly SIP (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p1_existing_sip" placeholder="8,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">HRA received (₹/month)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p1_hra_received" placeholder="20,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rent paid (₹/month)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p1_rent_paid" placeholder="25,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">NPS contribution (₹/year)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p1_nps_contribution" placeholder="50,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Life insurance cover (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p1_life_insurance_cover" placeholder="1,00,00,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">City type</label>
+            <select class="form-select" id="p1_city_type">
+              <option value="metro">Metro</option>
+              <option value="non-metro">Non-metro</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Partner 2 -->
+      <div class="form-section" style="border-left:4px solid var(--brand-purple);border-radius:0 var(--radius-lg) var(--radius-lg) 0">
+        <div class="form-section__title" style="color:var(--brand-purple)">Partner 2</div>
+        <div class="form-section__subtitle">Second earner details</div>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label">Name</label>
+            <input class="form-input" type="text" id="p2_name" placeholder="Priya"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Age</label>
+            <input class="form-input" type="number" id="p2_age" placeholder="26" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly income (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p2_monthly_income" placeholder="60,000" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly expenses (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p2_monthly_expenses" placeholder="30,000" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Gross annual CTC (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p2_gross_annual_salary" placeholder="8,00,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Existing investments (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p2_existing_investments" placeholder="2,00,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Current monthly SIP (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p2_existing_sip" placeholder="5,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">HRA received (₹/month)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p2_hra_received" placeholder="15,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rent paid (₹/month)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p2_rent_paid" placeholder="0"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">NPS contribution (₹/year)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p2_nps_contribution" placeholder="0"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Life insurance cover (₹)</label>
+            <div class="form-row">
+              <span class="form-prefix">₹</span>
+              <input class="form-input form-input--prefix" type="number" id="p2_life_insurance_cover" placeholder="50,00,000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">City type</label>
+            <select class="form-select" id="p2_city_type">
+              <option value="metro">Metro</option>
+              <option value="non-metro">Non-metro</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Combined goals -->
+      <div class="form-section">
+        <div class="form-section__title">Combined goals</div>
+        <div class="grid-2" style="gap:16px">
           <div class="form-group">
             <label class="form-label">Risk profile</label>
             <select class="form-select" id="risk_profile">
@@ -52,74 +220,145 @@
               <option value="aggressive">Aggressive</option>
             </select>
           </div>
+          <div class="form-group">
+            <label class="form-label">Years married</label>
+            <input class="form-input" type="number" id="years_married" placeholder="2" min="0"/>
+          </div>
         </div>
-      </div>
-
-      <div class="form-section">
-        <div class="form-section__title">Upload CAMS / KFin statement</div>
-        <div class="form-section__subtitle">Download from camsonline.com or kfintech.com — text format preferred</div>
-        <div class="form-group">
-          <label class="form-label">Statement file</label>
-          <input class="form-input" type="file" id="statement" accept=".txt,.pdf,.csv" required
-            style="padding:12px 16px;height:auto;cursor:pointer"/>
-          <span class="form-hint">Supported: .txt, .pdf, .csv · Max 10MB</span>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">
+          <label class="goal-chip"><input type="checkbox" value="house"/> Buy a house</label>
+          <label class="goal-chip"><input type="checkbox" value="child_education"/> Child's education</label>
+          <label class="goal-chip"><input type="checkbox" value="retirement"/> Retirement</label>
+          <label class="goal-chip"><input type="checkbox" value="travel"/> Travel</label>
+          <label class="goal-chip"><input type="checkbox" value="car"/> Buy a car</label>
         </div>
       </div>
 
       <button type="submit" class="btn btn--primary btn--large btn--full mt-24" id="submitBtn">
-        X-Ray my portfolio →
+        Optimise our finances →
       </button>
 
     </form>
   </div>
 </section>
 
+<style>
+.goal-chip {
+  display:flex;align-items:center;gap:8px;padding:10px 16px;
+  background:var(--bg-secondary);border:1.5px solid var(--border-medium);
+  border-radius:var(--radius-md);font-size:14px;font-weight:500;
+  cursor:pointer;transition:var(--transition);color:var(--text-secondary);
+}
+.goal-chip:hover { border-color:var(--brand-green);color:var(--brand-green-dark); }
+.goal-chip input { accent-color:var(--brand-green); }
+.goal-chip:has(input:checked) {
+  border-color:var(--brand-green);
+  background:var(--brand-green-light);
+  color:var(--brand-green-dark);
+}
+</style>
+
 <div class="toast" id="toast"></div>
 
 <script>
-const API_BASE = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
+const API_BASE = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')
   ? 'http://127.0.0.1:8000'
-  : '';
+  : 'https://ai-money-mentor-backend.onrender.com';
+
+const LOADING_MESSAGES = [
+  'Analysing combined income...',
+  'Optimising HRA claims...',
+  'Computing NPS strategy...',
+  'Splitting SIPs by goal...',
+  'Almost there...',
+];
+
+function g(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
+function s(id) { return document.getElementById(id)?.value || ''; }
 
 function showLoading() {
-  document.getElementById('loadingOverlay').classList.add('active');
+  const overlay = document.getElementById('loadingOverlay');
+  const text = document.getElementById('loadingText');
+  if (!overlay) return;
+  overlay.classList.add('active');
+  let i = 0;
+  const interval = setInterval(() => {
+    if (text) text.textContent = LOADING_MESSAGES[i % LOADING_MESSAGES.length];
+    i++;
+  }, 2200);
+  overlay._interval = interval;
 }
 
 function hideLoading() {
-  document.getElementById('loadingOverlay').classList.remove('active');
+  const overlay = document.getElementById('loadingOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('active');
+  clearInterval(overlay._interval);
 }
 
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
+  if (!t) return;
   t.textContent = msg;
   t.className = `toast show ${type}`;
   setTimeout(() => { t.className = 'toast'; }, 3500);
 }
 
-document.getElementById('mfForm').addEventListener('submit', async (e) => {
+document.getElementById('couplesForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const age = document.getElementById('age').value;
-  const risk = document.getElementById('risk_profile').value;
-  const file = document.getElementById('statement').files[0];
+  const goals = Array.from(document.querySelectorAll('.goal-chip input:checked')).map(c => c.value);
 
-  if (!age || !file) {
-    showToast('Please fill all fields and upload a statement', 'error');
+  const payload = {
+    partner1: {
+      name:                  s('p1_name') || 'Partner 1',
+      age:                   Math.round(g('p1_age')),
+      monthly_income:        g('p1_monthly_income'),
+      monthly_expenses:      g('p1_monthly_expenses'),
+      gross_annual_salary:   g('p1_gross_annual_salary'),
+      existing_investments:  g('p1_existing_investments'),
+      existing_sip:          g('p1_existing_sip'),
+      hra_received:          g('p1_hra_received'),
+      rent_paid:             g('p1_rent_paid'),
+      nps_contribution:      g('p1_nps_contribution'),
+      life_insurance_cover:  g('p1_life_insurance_cover'),
+      health_insurance_cover: 500000,
+      city_type:             s('p1_city_type'),
+    },
+    partner2: {
+      name:                  s('p2_name') || 'Partner 2',
+      age:                   Math.round(g('p2_age')),
+      monthly_income:        g('p2_monthly_income'),
+      monthly_expenses:      g('p2_monthly_expenses'),
+      gross_annual_salary:   g('p2_gross_annual_salary'),
+      existing_investments:  g('p2_existing_investments'),
+      existing_sip:          g('p2_existing_sip'),
+      hra_received:          g('p2_hra_received'),
+      rent_paid:             g('p2_rent_paid'),
+      nps_contribution:      g('p2_nps_contribution'),
+      life_insurance_cover:  g('p2_life_insurance_cover'),
+      health_insurance_cover: 500000,
+      city_type:             s('p2_city_type'),
+    },
+    combined_goals: goals,
+    risk_profile:   s('risk_profile'),
+    years_married:  Math.round(g('years_married')),
+  };
+
+  if (!payload.partner1.age || !payload.partner1.monthly_income ||
+      !payload.partner2.age || !payload.partner2.monthly_income) {
+    showToast('Please fill both partners age and income', 'error');
     return;
   }
-
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('age', age);
-  formData.append('risk_profile', risk);
 
   showLoading();
   document.getElementById('submitBtn').classList.add('btn--loading');
 
   try {
-    const res = await fetch(`${API_BASE}/api/mf-xray`, {
+    const res = await fetch(`${API_BASE}/api/couples`, {
       method: 'POST',
-      body: formData,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
     });
 
     if (!res.ok) {
@@ -128,10 +367,7 @@ document.getElementById('mfForm').addEventListener('submit', async (e) => {
     }
 
     const result = await res.json();
-    sessionStorage.setItem('mentorResult', JSON.stringify({
-      feature: 'mf_xray',
-      result,
-    }));
+    sessionStorage.setItem('mentorResult', JSON.stringify({ feature: 'couples', result }));
     window.location.href = 'result.html';
   } catch (err) {
     hideLoading();
@@ -140,6 +376,11 @@ document.getElementById('mfForm').addEventListener('submit', async (e) => {
     console.error(err);
   }
 });
+
+// Wake up Render backend on page load
+(async () => {
+  try { await fetch(`${API_BASE}/api/health`); } catch (_) {}
+})();
 </script>
 </body>
 </html>
