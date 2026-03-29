@@ -4,6 +4,8 @@
 
 Built for the ET GenAI Hackathon — gives every Indian what only HNIs could afford: a personalised financial plan.
 
+**Live Demo:** https://ai-money-mentor-mauve.vercel.app/
+
 ---
 
 ## What it does
