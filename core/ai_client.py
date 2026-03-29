@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
+
 def _clean_json_response(raw: str) -> str:
     raw = raw.strip()
     raw = re.sub(r"^```json\s*", "", raw)
@@ -24,13 +25,14 @@ def _clean_json_response(raw: str) -> str:
         return raw[start:end + 1]
     return raw
 
+
 def call_gemini(prompt: str, retries: int = 3) -> dict[str, Any]:
     last_error = None
     for attempt in range(retries):
         try:
             logger.info(f"Groq API call attempt {attempt + 1}")
             response = client.chat.completions.create(
-                model=os.getenv("GROQ_MODEL", "llama3-70b-8192"),
+                model=os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
                 messages=[
                     {
                         "role": "system",
@@ -46,6 +48,7 @@ def call_gemini(prompt: str, retries: int = 3) -> dict[str, Any]:
                 response_format={"type": "json_object"},
             )
             raw = response.choices[0].message.content
+            logger.info(f"Groq response length: {len(raw)}")
             cleaned = _clean_json_response(raw)
             parsed = json.loads(cleaned)
             logger.info("Groq response parsed successfully")
