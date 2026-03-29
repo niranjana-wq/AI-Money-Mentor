@@ -1,0 +1,9 @@
+{
+  "routes": [
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/onboarding", "dest": "/onboarding.html" },
+    { "src": "/result", "dest": "/result.html" },
+    { "src": "/couples", "dest": "/couples.html" },
+    { "src": "/mf-xray", "dest": "/mf-xray.html" }
+  ]
+}
